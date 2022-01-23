@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled, { keyframes } from 'styled-components/macro';
 import { DialogOverlay, DialogContent } from '@reach/dialog';
 
 import { QUERIES, WEIGHTS } from '../../constants';
@@ -8,6 +8,33 @@ import { QUERIES, WEIGHTS } from '../../constants';
 import UnstyledButton from '../UnstyledButton';
 import Icon from '../Icon';
 import VisuallyHidden from '../VisuallyHidden';
+
+const openDrawer = keyframes`
+  from {
+    width: 0px;
+  }
+  to {
+    width: 300px;
+  }
+`;
+
+const fadeIn = keyframes`
+  from {
+    background: var(--color-white);
+  }
+  to {
+    background: var(--color-backdrop);
+  }
+`;
+
+const contentsFadeIn = keyframes`
+  from {
+    color: var(--color-white);
+  }
+  to {
+    color: inherit;
+  }
+`;
 
 const MobileMenu = ({ isOpen, onDismiss }) => {
   return (
@@ -45,6 +72,8 @@ const Overlay = styled(DialogOverlay)`
   background: var(--color-backdrop);
   display: flex;
   justify-content: flex-end;
+
+  animation: ${fadeIn} 500ms forwards;
 `;
 
 const Content = styled(DialogContent)`
@@ -54,6 +83,8 @@ const Content = styled(DialogContent)`
   padding: 24px 32px;
   display: flex;
   flex-direction: column;
+
+  animation: ${openDrawer} 500ms forwards;
 `;
 
 const CloseButton = styled(UnstyledButton)`
@@ -61,6 +92,9 @@ const CloseButton = styled(UnstyledButton)`
   top: 10px;
   right: 0;
   padding: 16px;
+
+  animation: ${contentsFadeIn} 500ms both;
+  animation-delay: 300ms;
 `;
 
 const Nav = styled.nav`
@@ -79,6 +113,9 @@ const NavLink = styled.a`
   &:first-of-type {
     color: var(--color-secondary);
   }
+
+  animation: ${contentsFadeIn} 500ms both;
+  animation-delay: 300ms;
 `;
 
 const Filler = styled.div`
@@ -96,6 +133,9 @@ const SubLink = styled.a`
   color: var(--color-gray-700);
   font-size: 0.875rem;
   text-decoration: none;
+
+  animation: ${contentsFadeIn} 500ms both;
+  animation-delay: 300ms;
 `;
 
 export default MobileMenu;

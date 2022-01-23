@@ -8,6 +8,7 @@ import UnstyledButton from '../UnstyledButton';
 import SuperHeader from '../SuperHeader';
 import MobileMenu from '../MobileMenu';
 import VisuallyHidden from '../VisuallyHidden';
+import NavLink from '../NavLink';
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = React.useState(false);
@@ -113,7 +114,7 @@ const Filler = styled.div`
     display: none;
   }
 `;
-
+/*
 const NavLink = styled.a`
   font-size: 1.125rem;
   text-transform: uppercase;
@@ -125,5 +126,6 @@ const NavLink = styled.a`
     color: var(--color-secondary);
   }
 `;
+*/
 
 export default Header;
