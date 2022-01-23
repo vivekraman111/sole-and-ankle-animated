@@ -35,9 +35,7 @@ const ShoeCard = ({
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
         <ImageWrapper>
-          <ImageZoomWrapper>
-            <Image alt="" src={imageSrc} />
-          </ImageZoomWrapper>
+          <Image alt="" src={imageSrc} />
           {variant === 'on-sale' && <SaleFlag>Sale</SaleFlag>}
           {variant === 'new-release' && (
             <NewFlag>Just released!</NewFlag>
@@ -75,13 +73,12 @@ const Link = styled.a`
   color: inherit;
 `;
 
-const Wrapper = styled.article``;
-
-const ImageWrapper = styled.div`
+const Wrapper = styled.article`
   position: relative;
 `;
 
-const ImageZoomWrapper = styled.div`
+const ImageWrapper = styled.div`
+  
   overflow: hidden;
   border-radius: 16px 16px 4px 4px;
 `;
@@ -90,10 +87,15 @@ const Image = styled.img`
   width: 100%;
   transition: transform 500ms;
   transform-origin: 50% 80%;
+  display: block;
+  transition: transform 600ms;
+  will-change: transform;
 
-  &:hover {
-    transform: scale(1.1);
-    transition: transform 250ms;
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    ${Link}:hover &, ${Link}:focus & {
+      transform: scale(1.1);
+      transition: transform 250ms;
+    }
   }
 `;
 

@@ -11,10 +11,10 @@ import VisuallyHidden from '../VisuallyHidden';
 
 const openDrawer = keyframes`
   from {
-    width: 0px;
+    transform: translateX(100%)
   }
   to {
-    width: 300px;
+    transform: translateX(0%)
   }
 `;
 
@@ -29,10 +29,10 @@ const fadeIn = keyframes`
 
 const contentsFadeIn = keyframes`
   from {
-    color: var(--color-white);
+    opacity: 0;
   }
   to {
-    color: inherit;
+    opacity: 1;
   }
 `;
 
@@ -40,24 +40,26 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
   return (
     <Overlay isOpen={isOpen} onDismiss={onDismiss}>
       <Content aria-label="Menu">
-        <CloseButton onClick={onDismiss}>
-          <Icon id="close" />
-          <VisuallyHidden>Dismiss menu</VisuallyHidden>
-        </CloseButton>
-        <Filler />
-        <Nav>
-          <NavLink href="/sale">Sale</NavLink>
-          <NavLink href="/new">New&nbsp;Releases</NavLink>
-          <NavLink href="/men">Men</NavLink>
-          <NavLink href="/women">Women</NavLink>
-          <NavLink href="/kids">Kids</NavLink>
-          <NavLink href="/collections">Collections</NavLink>
-        </Nav>
-        <Footer>
-          <SubLink href="/terms">Terms and Conditions</SubLink>
-          <SubLink href="/privacy">Privacy Policy</SubLink>
-          <SubLink href="/contact">Contact Us</SubLink>
-        </Footer>
+        <InnerWrapper>
+          <CloseButton onClick={onDismiss}>
+            <Icon id="close" />
+            <VisuallyHidden>Dismiss menu</VisuallyHidden>
+          </CloseButton>
+          <Filler />
+          <Nav>
+            <NavLink href="/sale">Sale</NavLink>
+            <NavLink href="/new">New&nbsp;Releases</NavLink>
+            <NavLink href="/men">Men</NavLink>
+            <NavLink href="/women">Women</NavLink>
+            <NavLink href="/kids">Kids</NavLink>
+            <NavLink href="/collections">Collections</NavLink>
+          </Nav>
+          <Footer>
+            <SubLink href="/terms">Terms and Conditions</SubLink>
+            <SubLink href="/privacy">Privacy Policy</SubLink>
+            <SubLink href="/contact">Contact Us</SubLink>
+          </Footer>
+        </InnerWrapper>
       </Content>
     </Overlay>
   );
@@ -77,24 +79,35 @@ const Overlay = styled(DialogOverlay)`
 `;
 
 const Content = styled(DialogContent)`
+  --overfill: 16px;
   background: white;
-  width: 300px;
+  width: calc(300px + var(--overfill));
   height: 100%;
+  margin-right: calc(var(--overfill) * -1);
   padding: 24px 32px;
   display: flex;
   flex-direction: column;
 
-  animation: ${openDrawer} 500ms forwards;
+  @media (prefers-reduced-motion: no-preference) {
+    animation: ${openDrawer} 500ms both cubic-bezier(0, 0.6, 0.32, 1.06);
+    animation-delay: 200ms;
+  }
+`;
+
+const InnerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  animation: ${contentsFadeIn} 600ms both;
+  animation-delay: 400ms;
 `;
 
 const CloseButton = styled(UnstyledButton)`
   position: absolute;
   top: 10px;
-  right: 0;
+  right: var(--overfill);
   padding: 16px;
-
-  animation: ${contentsFadeIn} 500ms both;
-  animation-delay: 300ms;
 `;
 
 const Nav = styled.nav`
@@ -113,9 +126,6 @@ const NavLink = styled.a`
   &:first-of-type {
     color: var(--color-secondary);
   }
-
-  animation: ${contentsFadeIn} 500ms both;
-  animation-delay: 300ms;
 `;
 
 const Filler = styled.div`
@@ -133,9 +143,6 @@ const SubLink = styled.a`
   color: var(--color-gray-700);
   font-size: 0.875rem;
   text-decoration: none;
-
-  animation: ${contentsFadeIn} 500ms both;
-  animation-delay: 300ms;
 `;
 
 export default MobileMenu;

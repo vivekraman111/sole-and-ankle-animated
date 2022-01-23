@@ -1,17 +1,17 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
-import { QUERIES, WEIGHTS } from '../../constants';
+import { WEIGHTS } from '../../constants';
 
-const NavLink = ({children}) => {
+const NavLink = ({children, ...delegated}) => {
   return (
-  	<Wrapper>
-  	  <NonBoldChild>
+  	<Wrapper {...delegated}>
+  	  <MainText>
   	    {children}
-  	  </NonBoldChild>
-  	  <BoldChild>
+  	  </MainText>
+  	  <HoverText>
   	    {children}
-  	  </BoldChild>
+  	  </HoverText>
   	</Wrapper>
   )
 }
@@ -31,25 +31,31 @@ const Wrapper = styled.a`
   &:first-of-type {
     color: var(--color-secondary);
   }
-
-  &:hover *:first-child {
-  	transform: translateY(-100%);
-  }
-
-  &:hover *:nth-child(2) {
-  	transform: translateY(0%);
-  }
 `;
 
-const NonBoldChild = styled.span`
+const MainText = styled.span`
   transition: transform 500ms;
+
+  @media (prefers-reduced-motion: no-preference){
+    ${Wrapper}:hover & {
+      transform: translateY(-100%);
+      transition: transform 350ms;
+    }
+  }
 `
 
-const BoldChild = styled.span`
+const HoverText = styled.span`
   transition: transform 500ms;
   font-weight: ${WEIGHTS.bold};
   position: absolute;
   transform: translateY(100%);
+
+  @media (prefers-reduced-motion: no-preference){
+    ${Wrapper}:hover & {
+      transform: translateY(0%);
+      transition: transform 350ms;
+    } 
+  }
 `
 
 export default NavLink;
